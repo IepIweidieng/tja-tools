@@ -9,8 +9,9 @@ html {
 *:before,
 *:after {
     box-sizing: inherit;
-    background-color: black;
+    background-color: #222;
     color: white;
+
 }
 
 body,
@@ -130,20 +131,20 @@ body {
         .editor-process {
             margin-left: 4px;
         }
-        
+
         .zip-file-selector {
             margin-top: 10px;
             padding: 10px;
             border: 2px solid #ddd;
             border-radius: 4px;
             background-color: #f9f9f9;
-            
+
             label {
                 display: block;
                 margin-bottom: 8px;
                 font-weight: bold;
             }
-            
+
             .zip-tja-select {
                 width: 100%;
                 padding: 4px;
@@ -151,7 +152,7 @@ body {
                 border: 1px solid #ccc;
                 border-radius: 2px;
             }
-            
+
             button {
                 margin-right: 8px;
                 padding: 4px 8px;
@@ -159,26 +160,26 @@ body {
                 border-radius: 2px;
                 background-color: #fff;
                 cursor: pointer;
-                
+
                 &:hover {
                     background-color: #f0f0f0;
                 }
-                
+
                 &.load-zip-tja {
                     background-color: #4CAF50;
                     color: white;
                     border-color: #45a049;
-                    
+
                     &:hover {
                         background-color: #45a049;
                     }
                 }
-                
+
                 &.cancel-zip {
                     background-color: #f44336;
                     color: white;
                     border-color: #d32f2f;
-                    
+
                     &:hover {
                         background-color: #d32f2f;
                     }
@@ -200,7 +201,7 @@ body {
     .errors {
         padding: 8px;
         max-height: 72px;
-        background-color: #eee;
+        background-color: #444;
         font-size: 12px;
         overflow-y: auto;
     }
@@ -237,18 +238,18 @@ body {
     .button,
     .action {
         padding: 2px 4px;
-        background: #fafafa;
+        background: #333;
         border: 1px solid #aaa;
         font-size: 14px;
         cursor: pointer;
 
         &:hover {
-            background: #f6f6f6;
+            background: #555;
         }
 
         &.is-active {
             font-weight: bold;
-            background: #eee;
+            background: #444;
         }
     }
 
@@ -310,7 +311,7 @@ body {
             stroke: #777;
         }
     }
-	
+
 	.renda-head {
 		display: flex;
 	}
@@ -337,15 +338,15 @@ body {
             font-weight: bold;
             background: #eee;
         }
-		
+
 		&.btn-branch-n {
             color: #666;
         }
-		
+
 		&.btn-branch-e {
             color: #069;
         }
-		
+
 		&.btn-branch-m {
             color: #909;
         }
