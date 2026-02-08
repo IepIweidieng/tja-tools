@@ -1,17 +1,22 @@
 /***** Reset *****/
 
+:root {
+    color-scheme: light dark;
+}
+
 html {
     box-sizing: border-box;
     font-size: 16px;
+    @media (prefers-color-scheme: dark) {
+        background-color: #222;
+        color: white;
+    }
 }
 
 *,
 *:before,
 *:after {
     box-sizing: inherit;
-    background-color: #222;
-    color: white;
-
 }
 
 body,
@@ -50,22 +55,37 @@ body {
 
 .is-color-don {
     color: #f44;
+    @media (prefers-color-scheme: dark) {
+        color: #f87;
+    }
 }
 
 .is-color-kat {
     color: #44f;
+    @media (prefers-color-scheme: dark) {
+        color: #6cc;
+    }
 }
 
 .is-color-kadon {
     color: #f4f;
+    @media (prefers-color-scheme: dark) {
+        color: #f7f;
+    }
 }
 
 .is-color-adlib {
     color: rgb(24, 175, 24);
+    @media (prefers-color-scheme: dark) {
+        color: #4d4;
+    }
 }
 
 .is-color-mine {
     color: #444;
+    @media (prefers-color-scheme: dark) {
+        color: #ccc;
+    }
 }
 
 .is-size-big,
@@ -89,6 +109,9 @@ body {
     margin: 8px;
     padding: 8px;
     border: 1px solid #ccc;
+    @media (prefers-color-scheme: dark) {
+        border-color: #555;
+    }
 
     &+.area {
         margin-top: 0;
@@ -138,6 +161,10 @@ body {
             border: 2px solid #ddd;
             border-radius: 4px;
             background-color: #f9f9f9;
+            @media (prefers-color-scheme: dark) {
+                background-color: #333;
+                border-color: #555;
+            }
 
             label {
                 display: block;
@@ -201,16 +228,23 @@ body {
     .errors {
         padding: 8px;
         max-height: 72px;
-        background-color: #444;
+        background-color: #eee;
+        @media (prefers-color-scheme: dark) {
+            background-color: #444;
+        }
         font-size: 12px;
         overflow-y: auto;
     }
 }
 
+
 .area-footer {
     .source-repo {
         text-decoration: none;
         color: black;
+        @media (prefers-color-scheme: dark) {
+            color: white;
+        }
         font-size: 16px;
         font-weight: bold;
         text-transform: uppercase;
@@ -238,18 +272,28 @@ body {
     .button,
     .action {
         padding: 2px 4px;
-        background: #333;
+        background: #fafafa;
         border: 1px solid #aaa;
+        @media (prefers-color-scheme: dark) {
+            background-color: #333;
+            border-color: #888;
+        }
         font-size: 14px;
         cursor: pointer;
 
         &:hover {
-            background: #555;
+            background: #f6f6f6;
+            @media (prefers-color-scheme: dark) {
+                background-color: #555;
+            }
         }
 
         &.is-active {
             font-weight: bold;
-            background: #444;
+            background: #eee;
+            @media (prefers-color-scheme: dark) {
+                background-color: #444;
+            }
         }
     }
 
@@ -301,11 +345,19 @@ body {
         background: #f7f7f7;
         border: 1px solid #eeeeee;
         border-radius: 3px;
+        @media (prefers-color-scheme: dark) {
+            background-color: #333;
+            border-color: #ccc;
+        }
     }
 
     .stat-graph {
         background: #fafafa;
         border: 1px solid #f6f6f6;
+        @media (prefers-color-scheme: dark) {
+            background-color: #333;
+            border-color: #ccc;
+        }
 
         .grid line {
             stroke: #777;
@@ -325,30 +377,49 @@ body {
 
     .button {
         padding: 2px 4px;
-        background: #222;
+        background: #fafafa;
         border: 1px solid #aaa;
+        @media (prefers-color-scheme: dark) {
+            background-color: #222;
+            border-color: #888;
+        }
         font-size: 14px;
         cursor: pointer;
 
         &:hover {
-            background: #555;
+            background: #f6f6f6;
+            @media (prefers-color-scheme: dark) {
+                background-color: #555;
+            }
         }
 
         &.is-active {
             font-weight: bold;
-            background: #444;
+            background: #eee;
+            @media (prefers-color-scheme: dark) {
+                background-color: #444;
+            }
         }
 
 		&.btn-branch-n {
             color: #666;
+            @media (prefers-color-scheme: dark) {
+                color: #ddd;
+            }
         }
 
 		&.btn-branch-e {
             color: #069;
+            @media (prefers-color-scheme: dark) {
+                color: #7ef;
+            }
         }
 
 		&.btn-branch-m {
             color: #909;
+            @media (prefers-color-scheme: dark) {
+                color: #faf;
+            }
         }
     }
 }
