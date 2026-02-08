@@ -145,6 +145,8 @@ npm run build
 ## 功能
 
 - 编辑器
+  - 可拖放 ([Snack](https://github.com/Snack-X)) 或使用按鈕 ([Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng)) 导入 TJA 谱面。 \
+      也支援 ZIP 文件。([KirisameVanilla](https://github.com/KirisameVanilla))
   - 实时编辑 ([Snack](https://github.com/Snack-X)) \
       启用时，编辑 TJA 文本时，将自动更新预览和统计页面，无需点击处理按钮。
   - 自动向下滚动 ([WHMHammer](https://github.com/WHMHammer)) \
@@ -155,6 +157,8 @@ npm run build
       如果未勾选，则将嵌入所选难度的 TJA 谱面文本。 \
       无论哪种情况，都可以使用 `reverse.exe` 将其提取为文本文件。
   - 切换语言 ([Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng))
+  - 可使用按钮复制与下载编辑器文本。([宀kuronuri66宀](https://github.com/kuronuri66))
+  - 灰暗模式 ([宀kuronuri66宀](https://github.com/kuronuri66))
 
 - 预览
   - 生成用于 OpenTaiko 的 `uniqueId.json` ([申しコミ](https://github.com/0auBSQ))
@@ -193,6 +197,7 @@ npm run build
 - [申しコミ](https://github.com/0auBSQ)：添加了对`A`、`B`、`C`、`D`、`F`、`G`音符的支持，添加了次标题与谱面制作者的显示
 - [Dannal65535](https://github.com/Dannal65535)：添加了并列显示不同分歧轨道的支持，使预览图片与 Donscore 兼容，添加了日语翻译，添加了额外的 Donscore 图像
 - [sakurada0291](https://github.com/sakurada0291)：添加了英文翻译
+- [KirisameVanilla](https://github.com/KirisameVanilla)：添加简体中文翻译并抽离 i18n 模块。
 - わの人：Donscore 原项目作者
 - rocktyt：Donscore 原项目再开发者
 - aestivalis(あきら氏)：Donscore 原项目图像提供者

@@ -145,6 +145,8 @@ You shall then open `webpack-dist/index.html` (not `src/index.html`) with your w
 ## Features
 
 - Editor
+  - Drag & drop ([Snack](https://github.com/Snack-X)) or use button ([Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng)) to import TJA chart. \
+      ZIP file is also support. ([KirisameVanilla](https://github.com/KirisameVanilla))
   - Live editing ([Snack](https://github.com/Snack-X)) \
       If enabled, editing the TJA text will automatically update the preview and statistics tabs without the need to click the process button.
   - Auto scrolling to bottom ([WHMHammer](https://github.com/WHMHammer)) \
@@ -155,6 +157,8 @@ You shall then open `webpack-dist/index.html` (not `src/index.html`) with your w
       If unchecked, the TJA notation for the selected difficulty will be embedded instead. \
       In either case, you can extract it as a text file with `reverse.exe`.
   - Switching language ([Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng))
+  - Copy and download editor text using buttons ([宀kuronuri66宀](https://github.com/kuronuri66))
+  - Dark mode ([宀kuronuri66宀](https://github.com/kuronuri66))
 
 - Preview
   - Generating `uniqueId.json` for OpenTaiko ([申しコミ](https://github.com/0auBSQ))
@@ -193,6 +197,7 @@ You shall then open `webpack-dist/index.html` (not `src/index.html`) with your w
 - [申しコミ](https://github.com/0auBSQ): Added support to `A`, `B`, `C`, `D`, `F`, and `G` notes. Added display of subtitle and chart maker
 - [Dannal65535](https://github.com/Dannal65535)：Added Support of showing different branches side-by-side. Made preview image compatible with Donscore. Added Japanese translation. Added additional Donscore sprite images.
 - [sakurada0291](https://github.com/sakurada0291): Added English translation
+- [KirisameVanilla](https://github.com/KirisameVanilla): Added zh-cn translation and extract i18n module.
 - わの人: The original author of Donscore
 - rocktyt: The later developer of Donscore
 - aestivalis(あきら氏): The original sprite image provider of Donscore

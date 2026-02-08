@@ -146,6 +146,8 @@ npm run build
 ## 仕様
 
 - エディタ
+  - ドラッグ＆ドロップ（[Snack](https://github.com/Snack-X)様）またはボタン（[Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng) 様）を使用してTJA譜面をインポートことが出来ます。\
+    ZIPファイルもサポートされています。（[KirisameVanilla](https://github.com/KirisameVanilla)）
   - 更新の自動反映（[Snack](https://github.com/Snack-X)様） \
       有効にすると、TJAテキストを編集すると、反映ボタンをクリックすることなく、プレビューと統計タブが自動的に更新されます。
   - 下へ自動スクロールする ([WHMHammer](https://github.com/WHMHammer)様) \
@@ -156,6 +158,8 @@ npm run build
       チェックを外すと選んだ難易度分のTJAテキストが埋め込まれます。 \
       どちらの場合でも`reverse.exe`でテキストファイルとして取り出すことが出来ます。
   - 言語の切り替え（[Wei-Cheng Yeh (IID)](https://github.com/IepIweidieng) 様）
+  - ボタンを使用して、エディタのテキストのコピーとダウンロードことが出来ます。（[宀kuronuri66宀](https://github.com/kuronuri66)様）
+  - ダークモード ([宀kuronuri66宀](https://github.com/kuronuri66)様)
 
 - プレビュー
   - OpenTaiko用の`uniqueId.json`を生成する（[申しコミ](https://github.com/0auBSQ)様）
@@ -194,6 +198,7 @@ npm run build
 - [申しコミ](https://github.com/0auBSQ)様：`A`、`B`、`C`、`D`、`F`、`G`の音符の追加、サブタイトルと譜面製作者の表示の追加
 - [Dannal65535](https://github.com/Dannal65535)様：異なる分岐を並べて表示の機能の追加、どんすこあとのプレビュー画像の互換性の追加、日本語翻訳の追加、どんすこあ風の画像の追加
 - [sakurada0291](https://github.com/sakurada0291)様：英語翻訳の追加
+- [KirisameVanilla](https://github.com/KirisameVanilla)様：簡体字中国語翻訳とi18nモジュールの抽出を追加。
 - わの人 様：どんすこあの製作者
 - rocktyt 様：どんすこあの再開発
 - aestivalis(あきら氏) 様：どんすこあへの画像提供
