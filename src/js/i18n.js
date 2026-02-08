@@ -12,6 +12,8 @@ const translations = {
         'editor.encoding.auto': 'Auto',
         'editor.live': 'Live-editing',
         'editor.process': 'Process',
+        'editor.download': 'Download',
+        'editor.copy': 'Copy',
         
         // 错误区域
         'errors.title': 'Errors',
@@ -83,6 +85,8 @@ const translations = {
         'editor.encoding.auto': '自動認識',
         'editor.live': '自動反映',
         'editor.process': '反映',
+        'editor.download': '保存',
+        'editor.copy': 'コピー',
         
         // 错误区域
         'errors.title': 'エラー',
@@ -154,6 +158,8 @@ const translations = {
         'editor.encoding.auto': '自动',
         'editor.live': '实时编辑',
         'editor.process': '处理',
+        'editor.download': '下载',
+        'editor.copy': '复制',
         
         // 错误区域
         'errors.title': '错误',
