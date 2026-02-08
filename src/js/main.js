@@ -84,7 +84,7 @@ const downloadNewUniqueId = async () => {
         "url": "",
     };
 
-    downloadjs(JSON.stringify(uniqueId), `uniqueId.json`, 'application/json');
+    downloadjs(JSON.stringify(uniqueId), `uniqueID.json`, 'application/json');
 
 };
 

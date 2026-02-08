@@ -161,7 +161,7 @@ npm run build
   - 灰暗模式 ([宀kuronuri66宀](https://github.com/kuronuri66))
 
 - 预览
-  - 生成用于 OpenTaiko 的 `uniqueId.json` ([申しコミ](https://github.com/0auBSQ))
+  - 生成用于 OpenTaiko 的 `uniqueID.json` ([申しコミ](https://github.com/0auBSQ))
   - 在手机上保存图片 ([申しコミ](https://github.com/0auBSQ)、[Dannal65535](https://github.com/Dannal65535))
 
 - 统计

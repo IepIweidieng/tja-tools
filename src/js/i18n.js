@@ -20,7 +20,7 @@ const translations = {
         'footer.source': 'Source Repo',
         
         // 控制区域
-        'controls.unique': 'Generate <code>uniqueId.json</code>',
+        'controls.unique': 'Generate <code>uniqueID.json</code>',
         'controls.download': 'Download as image',
         'controls.preview': 'Preview',
         'controls.statistics': 'Statistics',
@@ -91,7 +91,7 @@ const translations = {
         'footer.source': 'リポジトリ',
         
         // 控制区域
-        'controls.unique': '<code>uniqueId.json</code>を生成',
+        'controls.unique': '<code>uniqueID.json</code>を生成',
         'controls.download': '画像に保存',
         'controls.preview': 'プレビュー',
         'controls.statistics': '統計',
@@ -162,7 +162,7 @@ const translations = {
         'footer.source': '源码仓库',
         
         // 控制区域
-        'controls.unique': '生成 <code>uniqueId.json</code>',
+        'controls.unique': '生成 <code>uniqueID.json</code>',
         'controls.download': '下载为图片',
         'controls.preview': '预览',
         'controls.statistics': '统计',

@@ -162,7 +162,7 @@ npm run build
   - ダークモード ([宀kuronuri66宀](https://github.com/kuronuri66)様)
 
 - プレビュー
-  - OpenTaiko用の`uniqueId.json`を生成する（[申しコミ](https://github.com/0auBSQ)様）
+  - OpenTaiko用の`uniqueID.json`を生成する（[申しコミ](https://github.com/0auBSQ)様）
   - スマホでの画像保存対応（[申しコミ](https://github.com/0auBSQ)様、[Dannal65535](https://github.com/Dannal65535)様）
 
 - 統計
