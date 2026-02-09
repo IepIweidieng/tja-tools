@@ -448,13 +448,8 @@ export function predictScore(stats, course, gogoFloor, scoreSystem) {
 	}, Math.ceil(1000000 / 10), 1000000)
 
 	//Shiage
-	if (scoreSystem === 'CS'){
+	if (scoreSystem === 'CS')
 		return [scoreInit, scoreDiff, scoreShin];
-	}
-	else if (scoreSystem === 'AC16Old'){
-		return [scoreInit, scoreDiff, scoreNiji];
-	}
-	else {
-		return [scoreNiji, 0, 1000];
-	}
+	// if (scoreSystem === 'AC16Old')
+	return [scoreInit, scoreDiff, scoreNiji];
 }
