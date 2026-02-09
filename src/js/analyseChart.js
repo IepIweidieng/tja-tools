@@ -1,3 +1,5 @@
+import { bsearchLeftmost } from './common';
+
 function pulseToTime(events, objects) {
     let bpm = 120;
     let passedBeat = 0, passedTime = 0;
@@ -326,14 +328,84 @@ export default function (chart, courseId, branchType) {
     return { statistics, graph };
 }
 
+export function calculateScore(stats, course, scoreInit, scoreDiff, gogoFloor, scoreSystem, shinuchi=false) {
+	const autoAC16 = [6.0,7.5,10.0,15.0,15.0];
+
+	const drop1 = n => Math.floor(n / 10) * 10;
+	const multipliers = [0, 1, 2, 4, 8];
+	const rollAC15 = 1.0 / 15.0;
+	const rollAC16 = 1.0 / autoAC16[course.headers.course];
+	const rollScore = [[100,200],[120,240]];
+
+	switch (scoreSystem + shinuchi) {
+		case 'AC15' + false:
+		case 'AC16' + false: {
+			let noteScores = multipliers.map(m => drop1(scoreInit + scoreDiff * m));
+			let noteScores2 = multipliers.map(m => (scoreInit + scoreDiff * m));
+			let noteScoresBig = multipliers.map(m => drop1(scoreInit + scoreDiff * m) * 2);
+
+			let noteGogoScores;
+			let noteGogoScoresBig;
+			if (gogoFloor === 'AC15') {
+				noteGogoScores = noteScores.map(s => drop1(s * 1.2));
+				noteGogoScoresBig = noteScores.map(s => drop1(s * 1.2) * 2);
+			}
+			else {
+				noteGogoScores = noteScores2.map(s => drop1(s * 1.2));
+				noteGogoScoresBig = noteScores2.map(s => drop1(s * 1.2) * 2);
+			}
+
+			let scoreBasic = (
+				noteScores.map((s, i) => stats.score.notes[0][0][i] * s).reduce((p, c) => p + c, 0) +
+				noteGogoScores.map((s, i) => stats.score.notes[0][1][i] * s).reduce((p, c) => p + c, 0) +
+				noteScoresBig.map((s, i) => stats.score.notes[1][0][i] * s).reduce((p, c) => p + c, 0) +
+				noteGogoScoresBig.map((s, i) => stats.score.notes[1][1][i] * s).reduce((p, c) => p + c, 0) +
+				stats.score.balloon[0] * 300 +
+				stats.score.balloon[1] * 360 +
+				stats.score.balloonPop[0] * 5000 +
+				stats.score.balloonPop[1] * 6000 +
+				Math.floor(stats.totalCombo / 100) * 10000
+			);
+
+			let scoreRoll = 0;
+			for (let i = 0; i < stats.rendas.length; i++) {
+				scoreRoll += Math.ceil(stats.rendas[i] / rollAC15)
+				* rollScore[stats.rendaExtends[i].isGoGoRenda][stats.rendaExtends[i].isBigRenda];
+			}
+			return [scoreBasic, scoreRoll]
+		}
+		case 'AC15' + true: {
+			let scoreBasic = ((stats.totalCombo + (stats.notes[2] + stats.notes[3])) * scoreInit) +
+				(stats.score.balloon[0] * 300) +
+				(stats.score.balloon[1] * 300) +
+				(stats.score.balloonPop[0] * 5000) +
+				(stats.score.balloonPop[1] * 5000);
+
+			let scoreRoll = 0;
+			for (let i = 0; i < stats.rendas.length; i++) {
+				scoreRoll += Math.ceil(stats.rendas[i] / rollAC15)
+				* rollScore[0][stats.rendaExtends[i].isBigRenda];
+			}
+			return [scoreBasic, scoreRoll]
+		}
+		case 'AC16' + true: {
+			let scoreBasic = (stats.totalCombo * scoreInit) +
+							(stats.score.balloon[0] * 100) +
+							(stats.score.balloon[1] * 100) +
+							(stats.score.balloonPop[0] * 100) +
+							(stats.score.balloonPop[1] * 100);
+
+			let scoreRoll = 0;
+			for (let i = 0; i < stats.rendas.length; i++) {
+				scoreRoll += Math.ceil(stats.rendas[i] / rollAC16) * 100;
+			}
+			return [scoreBasic, scoreRoll]
+		}
+	}
+	return [0, 0]
+}
+
 export function predictScore(stats, course, gogoFloor, scoreSystem) {
-	let diffTemp = 0;
-	let scoreInit = 0;
-	let scoreDiff = 0;
-	let scoreShin = 0;
-	let scoreNiji = 0;
-	let scoreGoal = 0;
-	let scoreTemp = 0;
 	const tenjo = [
 		[30,32,34,36,38],
 		[40,45,50,55,60,65,70],
@@ -341,97 +413,39 @@ export function predictScore(stats, course, gogoFloor, scoreSystem) {
 		[70,75,80,85,90,95,100,105,110,120],
 		[70,75,80,85,90,95,100,105,110,120]
 	]
-	const levelMax = [5,7,8,10,10];
-	const autoAC16 = [6.0,7.5,10.0,15.0,15.0];
-	let tempLevel = course.headers.level;
-	if (tempLevel > levelMax[course.headers.course]){
-		tempLevel = levelMax[course.headers.course];
-	}
-	const drop1 = n => Math.floor(n / 10) * 10;
-	const multipliers = [0, 1, 2, 4, 8];
-	let noteScores;
-	let noteScores2;
-	let noteScoresBig;
-	let noteGogoScores;
-	let noteGogoScoresBig;
-	const rollAC15 = 1.0 / 15.0;
-	const rollAC16 = 1.0 / autoAC16[course.headers.course];
-	const rollScore = [[100,200],[120,240]];
+	let tempLevel = Math.min(Math.max(1, Math.floor(course.headers.level)), tenjo[course.headers.course].length);
 
 	//AC15
-	scoreGoal = tenjo[course.headers.course][tempLevel - 1] * 10000;
-	while (scoreTemp < scoreGoal){
-		diffTemp++;
-		scoreDiff = Math.ceil(diffTemp / 4);
-		if (diffTemp % 10 == 0)
-			scoreInit += 10;
-
-		noteScores = multipliers.map(m => drop1(scoreInit + scoreDiff * m));
-		noteScores2 = multipliers.map(m => (scoreInit + scoreDiff * m));
-		noteScoresBig = multipliers.map(m => drop1(scoreInit + scoreDiff * m) * 2);
-
-		if (gogoFloor === 'AC15') {
-			noteGogoScores = noteScores.map(s => drop1(s * 1.2));
-			noteGogoScoresBig = noteScores.map(s => drop1(s * 1.2) * 2);
-		}
-		else {
-			noteGogoScores = noteScores2.map(s => drop1(s * 1.2));
-			noteGogoScoresBig = noteScores2.map(s => drop1(s * 1.2) * 2);
-		}
-
-		scoreTemp = (
-			noteScores.map((s, i) => stats.score.notes[0][0][i] * s).reduce((p, c) => p + c, 0) +
-			noteGogoScores.map((s, i) => stats.score.notes[0][1][i] * s).reduce((p, c) => p + c, 0) +
-			noteScoresBig.map((s, i) => stats.score.notes[1][0][i] * s).reduce((p, c) => p + c, 0) +
-			noteGogoScoresBig.map((s, i) => stats.score.notes[1][1][i] * s).reduce((p, c) => p + c, 0) +
-			stats.score.balloon[0] * 300 +
-			stats.score.balloon[1] * 360 +
-			stats.score.balloonPop[0] * 5000 +
-			stats.score.balloonPop[1] * 6000 +
-			Math.floor(stats.totalCombo / 100) * 10000
-		);
-
-		for (let i = 0; i < stats.rendas.length; i++) {
-			scoreTemp += Math.ceil(stats.rendas[i] / rollAC15)
-			* rollScore[stats.rendaExtends[i].isGoGoRenda][stats.rendaExtends[i].isBigRenda];
-		}
+	const scoreGoal = tenjo[course.headers.course][tempLevel - 1] * 10000;
+	const diffTemp = 2 * bsearchLeftmost(v => {
+		let diffTemp = 2 * v;
+		let scoreDiff = Math.ceil(diffTemp / 4);
+		let scoreInit = Math.floor(diffTemp / 10) * 10;
+		let result = calculateScore(stats, course, scoreInit, scoreDiff, gogoFloor, 'AC15', false)
+		let scoreTemp = result[0] + result[1]
 		//console.log('通常：'+scoreInit+','+scoreDiff+'=>'+scoreTemp);
-	}
+		return scoreTemp
+	}, Math.ceil(scoreGoal / 2), scoreGoal)
+	const scoreDiff = Math.ceil(diffTemp / 4);
+	const scoreInit = Math.floor(diffTemp / 10) * 10;
 
 	//Shinuchi
-	scoreTemp = 0;
-	while (scoreTemp < 1000000){
-		scoreShin += 10;
-
-		scoreTemp = ((stats.totalCombo + (stats.notes[2] + stats.notes[3])) * scoreShin) +
-						 (stats.score.balloon[0] * 300) +
-						 (stats.score.balloon[1] * 300) +
-						 (stats.score.balloonPop[0] * 5000) +
-						 (stats.score.balloonPop[1] * 5000);
-
-		for (let i = 0; i < stats.rendas.length; i++) {
-			scoreTemp += Math.ceil(stats.rendas[i] / rollAC15)
-			* rollScore[0][stats.rendaExtends[i].isBigRenda];
-		}
+	const scoreShin = 10 * bsearchLeftmost(v => {
+		let scoreShin = 10 * v
+		let result = calculateScore(stats, course, scoreShin, 0, gogoFloor, 'AC15', true)
+		let scoreTemp = result[0] + result[1]
 		//console.log('真打：'+scoreShin+'=>'+scoreTemp);
-	}
+		return scoreTemp;
+	}, Math.ceil(1000000 / 10), 1000000)
 
 	//AC16
-	scoreTemp = 0;
-	while (scoreTemp < 1000000){
-		scoreNiji += 10;
-
-		scoreTemp = (stats.totalCombo * scoreNiji) +
-						(stats.score.balloon[0] * 100) +
-						(stats.score.balloon[1] * 100) +
-						(stats.score.balloonPop[0] * 100) +
-						(stats.score.balloonPop[1] * 100);
-
-		for (let i = 0; i < stats.rendas.length; i++) {
-			scoreTemp += Math.ceil(stats.rendas[i] / rollAC16) * 100;
-		}
+	const scoreNiji = 10 * bsearchLeftmost(v => {
+		let scoreNiji = 10 * v;
+		let result = calculateScore(stats, course, scoreNiji, 0, gogoFloor, 'AC16', true)
+		let scoreTemp = result[0] + result[1]
 		//console.log('虹色：'+scoreNiji+'=>'+scoreTemp);
-	}
+		return scoreTemp;
+	}, Math.ceil(1000000 / 10), 1000000)
 
 	//Shiage
 	if (scoreSystem === 'CS'){

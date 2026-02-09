@@ -24,7 +24,8 @@ import {
 } from './drawChart';
 import analyseChart from './analyseChart';
 import {
-    predictScore
+    calculateScore,
+    predictScore,
 } from './analyseChart';
 import {
     embedText,
@@ -383,58 +384,19 @@ function buildStatisticsPage(data) {
 
     $('.stat-level').text('★×' + course.headers.level);
 
-    const drop1 = n => Math.floor(n / 10) * 10;
-    const multipliers = [0, 1, 2, 4, 8];
-    const noteScores = multipliers.map(m => drop1(scoreInit + scoreDiff * m));
-    const noteScores2 = multipliers.map(m => (scoreInit + scoreDiff * m));
-    const noteScoresShin = multipliers.map(m => scoreShin);
-    const noteScoresBig = multipliers.map(m => drop1(scoreInit + scoreDiff * m) * 2);
-
-    let noteGogoScores;
-    let noteGogoScoresBig;
-    if (selectedGogoFloor === 'AC15') {
-        noteGogoScores = noteScores.map(s => drop1(s * 1.2));
-        noteGogoScoresBig = noteScores.map(s => drop1(s * 1.2) * 2);
-    } else {
-        noteGogoScores = noteScores2.map(s => drop1(s * 1.2));
-        noteGogoScoresBig = noteScores2.map(s => drop1(s * 1.2) * 2);
-    }
-
     let statPotential;
     let statPotential2;
     if (selectedScoreSystem != 'AC16New') {
-        statPotential = (
-            noteScores.map((s, i) => stats.score.notes[0][0][i] * s).reduce((p, c) => p + c, 0) +
-            noteGogoScores.map((s, i) => stats.score.notes[0][1][i] * s).reduce((p, c) => p + c, 0) +
-            noteScoresBig.map((s, i) => stats.score.notes[1][0][i] * s).reduce((p, c) => p + c, 0) +
-            noteGogoScoresBig.map((s, i) => stats.score.notes[1][1][i] * s).reduce((p, c) => p + c, 0) +
-            stats.score.balloon[0] * 300 +
-            stats.score.balloon[1] * 360 +
-            stats.score.balloonPop[0] * 5000 +
-            stats.score.balloonPop[1] * 6000 +
-            Math.floor(stats.totalCombo / 100) * 10000
-        );
+        statPotential = calculateScore(stats, course, scoreInit, scoreDiff, selectedGogoFloor, 'AC15', false)[0];
         if (scoreShin != null) {
             if (selectedScoreSystem === 'CS') {
-                statPotential2 = ((stats.totalCombo + (stats.notes[2] + stats.notes[3])) * scoreShin) +
-                    (stats.score.balloon[0] * 300) +
-                    (stats.score.balloon[1] * 300) +
-                    (stats.score.balloonPop[0] * 5000) +
-                    (stats.score.balloonPop[1] * 5000);
+                statPotential2 = calculateScore(stats, course, scoreShin, 0, selectedGogoFloor, 'AC15', true)[0];
             } else if (selectedScoreSystem === 'AC16Old') {
-                statPotential2 = (stats.totalCombo * scoreShin) +
-                    (stats.score.balloon[0] * 100) +
-                    (stats.score.balloon[1] * 100) +
-                    (stats.score.balloonPop[0] * 100) +
-                    (stats.score.balloonPop[1] * 100);
+                statPotential2 = calculateScore(stats, course, scoreShin, 0, selectedGogoFloor, 'AC16', true)[0];
             }
         }
     } else {
-        statPotential = (stats.totalCombo * scoreInit) +
-            (stats.score.balloon[0] * 100) +
-            (stats.score.balloon[1] * 100) +
-            (stats.score.balloonPop[0] * 100) +
-            (stats.score.balloonPop[1] * 100);
+        statPotential = calculateScore(stats, course, scoreInit, 0, selectedGogoFloor, 'AC16', true)[0];
     }
 
     const strPts = t('unit.points');
