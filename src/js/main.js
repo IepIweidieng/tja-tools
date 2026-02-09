@@ -380,41 +380,32 @@ function buildStatisticsPage(data) {
         scoreInit = predicted[0];
         scoreDiff = predicted[1];
         scoreShin = predicted[2];
+        $('.stat-scoreinit').text(scoreInit + ',' + scoreShin);
+        $('.stat-scorediff').text(scoreDiff);
+    } else {
+        $('.stat-scoreinit').text('');
+        $('.stat-scorediff').text('');
     }
+    let scoreShinOrInit = scoreShin
+    if (scoreShin === undefined || scoreShin === null)
+        scoreShinOrInit = scoreInit
 
     $('.stat-level').text('★×' + course.headers.level);
 
     let statPotential;
     let statPotential2;
-    if (selectedScoreSystem != 'AC16New') {
-        statPotential = calculateScore(stats, course, scoreInit, scoreDiff, selectedGogoFloor, 'AC15', false)[0];
-        if (scoreShin != null) {
-            if (selectedScoreSystem === 'CS') {
-                statPotential2 = calculateScore(stats, course, scoreShin, 0, selectedGogoFloor, 'AC15', true)[0];
-            } else if (selectedScoreSystem === 'AC16Old') {
-                statPotential2 = calculateScore(stats, course, scoreShin, 0, selectedGogoFloor, 'AC16', true)[0];
-            }
-        }
-    } else {
-        statPotential = calculateScore(stats, course, scoreInit, 0, selectedGogoFloor, 'AC16', true)[0];
+    statPotential = calculateScore(stats, course, scoreInit, scoreDiff, selectedGogoFloor, 'AC15', false)[0];
+    if (selectedScoreSystem === 'CS') {
+        statPotential2 = calculateScore(stats, course, scoreShinOrInit, 0, selectedGogoFloor, 'AC15', true)[0];
+    } else if (selectedScoreSystem === 'AC16Old') {
+        statPotential2 = calculateScore(stats, course, scoreShinOrInit, 0, selectedGogoFloor, 'AC16', true)[0];
     }
 
     const strPts = t('unit.points');
     const strRolls = t('stats.drumrolls');
-    if (selectedScoreSystem != 'AC16New') {
-        if (stats.rendas.length) $('.stat-max-score').html(`${scoreInit}${strPts}, ${scoreDiff}${strPts} => ${statPotential}${strPts} + ${strRolls}`);
-        else $('.stat-max-score').html(`${scoreInit}${strPts}, ${scoreDiff}${strPts} => ${statPotential}${strPts}`);
-        if (scoreShin != null) {
-            if (stats.rendas.length) $('.stat-max-score2').html(`${scoreShin}${strPts} => ${statPotential2}${strPts} + ${strRolls}`);
-            else $('.stat-max-score2').html(`${scoreShin}${strPts} => ${statPotential2}${strPts}`);
-        } else {
-            $('.stat-max-score2').text('');
-        }
-    } else {
-        if (stats.rendas.length) $('.stat-max-score').html(`${scoreInit}${strPts} => ${statPotential}${strPts} + ${strRolls}`);
-        else $('.stat-max-score').html(`${scoreInit}${strPts} => ${statPotential}${strPts}`);
-        $('.stat-max-score2').text('');
-    }
+    const strPlusRolls = (stats.rendas.length) ? ` + ${strRolls}` : '';
+    $('.stat-max-score').html(`${scoreInit}${strPts}, ${scoreDiff}${strPts} => ${statPotential}${strPts}${strPlusRolls}`);
+    $('.stat-max-score2').html(`${scoreShinOrInit}${strPts} => ${statPotential2}${strPts}${strPlusRolls}`);
 
     let bpmMin = 0,
         bpmMax = 0,
