@@ -253,6 +253,9 @@ body {
             height: 16px;
             width: 16px;
             vertical-align: middle;
+            @media (prefers-color-scheme: dark) {
+                filter: invert(1);
+            }
         }
 
         label {
