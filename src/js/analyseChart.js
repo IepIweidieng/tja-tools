@@ -188,6 +188,7 @@ function getStatistics(course) {
         }
 
         const v1 = typeNote.indexOf(note.type);
+        const isBig = note.type.endsWith('Big')
         if (v1 !== -1) {
             if (i === 0) start = note.time;
             end = note.time;
@@ -195,9 +196,8 @@ function getStatistics(course) {
             notes[v1] += 1;
             combo += 1;
 
-            const big = v1 === 2 || v1 === 3 || v1 === 4;
             const scRange = (combo < 10 ? 0 : (combo < 30 ? 1 : (combo < 50 ? 2 : (combo < 100 ? 3 : 4))));
-            scNotes[big ? 1 : 0][scGogo][scRange] += 1;
+            scNotes[isBig ? 1 : 0][scGogo][scRange] += 1;
 
             let noteScoreBase = (
                 course.headers.scoreInit +
@@ -206,7 +206,7 @@ function getStatistics(course) {
 
             let noteScore = Math.floor(noteScoreBase / 10) * 10;
             if (scGogo) noteScore = Math.floor(noteScore * 1.2 / 10) * 10;
-            if (big) noteScore *= 2;
+            if (isBig) noteScore *= 2;
 
             scPotential += noteScore;
 
@@ -219,20 +219,18 @@ function getStatistics(course) {
             if (note.end !== undefined) {
                 const noteEnd = course.notes[course.midxToNoteIdx[note.end.midx] + note.end.didx];
                 const rendaLength = noteEnd.time - note.time;
-                const isBigRenda = note.type === 'rendaBig' ? 1 : 0;
-                const isGoGoRenda = scGogo;
                 rendas.push(rendaLength);
 
 				if (rendaExtends.length > 0) {
-					if (rendaExtends[rendaExtends.length - 1].isBigRenda != isBigRenda ||
-						rendaExtends[rendaExtends.length - 1].isGoGoRenda != isGoGoRenda ||
+					if (rendaExtends[rendaExtends.length - 1].isBigRenda != isBig ||
+						rendaExtends[rendaExtends.length - 1].isGoGoRenda != scGogo ||
 						rendas[rendaExtends.length - 1].toFixed(3) != rendaLength.toFixed(3)) {
 						rendaGroup += 1;
 					}
 				}
 				rendaExtends.push({
-					isBigRenda: isBigRenda,
-					isGoGoRenda: isGoGoRenda,
+					isBigRenda: isBig,
+					isGoGoRenda: scGogo,
 					rendaGroup: rendaGroup
 				});
             }
