@@ -44,11 +44,19 @@ body {
 }
 
 body {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+    grid-template-rows: 1fr 0fr;
+    grid-template-areas:
+        "left right"
+        "foot right";
+    gap: 8px;
+    padding: 8px;
     font-family: sans-serif;
     @media only screen and ((max-width: 600px) or (orientation: portrait)) {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 1fr 0fr;
+        grid-template-areas: "left" "right" "foot";
     }
 }
 
@@ -106,18 +114,15 @@ body {
 .pane-right {
     display: flex;
     flex-direction: column;
+    gap: 8px;
 }
 
 .area {
-    margin: 8px;
+    margin: 0;
     padding: 8px;
     border: 1px solid #ccc;
     @media (prefers-color-scheme: dark) {
         border-color: #555;
-    }
-
-    &+.area {
-        margin-top: 0;
     }
 
     &.is-titled {
@@ -137,18 +142,10 @@ body {
     }
 }
 
-.pane-right .area {
-    margin-left: 0;
-    @media only screen and ((max-width: 600px) or (orientation: portrait)) {
-        margin-top: 0;
-        margin-left: 8px;
-    }
-}
-
 /***** Left *****/
 
 .pane-left {
-    flex: 0;
+    grid-area: left;
 }
 
 .area-editor {
@@ -225,6 +222,7 @@ body {
     .input {
         padding: 8px;
         width: 400px;
+        height: 200px;
         min-width: 100%;
         max-width: 80vw;
         min-height: 100%;
@@ -255,11 +253,11 @@ body {
 
 
 .area-footer {
+    grid-area: foot;
     align-items: center;
+    position: sticky;
+    bottom: 0;
     @media only screen and ((max-width: 600px) or (orientation: portrait)) {
-        position: fixed;
-        bottom: 0;
-        right: 0;
         backdrop-filter: blur(2px);
     }
 
@@ -293,13 +291,13 @@ body {
 /***** Right *****/
 
 .pane-right {
-    flex: 6;
+    grid-area: right;
 }
 
 .area-controls {
+    position: sticky;
+    top: 0;
     @media only screen and ((max-width: 600px) or (orientation: portrait)) {
-        position: sticky;
-        top: 8px;
         backdrop-filter: blur(2px);
     }
 
