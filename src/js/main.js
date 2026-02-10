@@ -105,12 +105,14 @@ const downloadStatisticsAsImage = async () => {
     const copiedstatsEl = statsEl.cloneNode(true);
     copiedstatsEl.style.position = 'fixed';
     copiedstatsEl.style.right = '100%';
-    copiedstatsEl.style.width = '100%';
+    copiedstatsEl.style.width = '650px';
     copiedstatsEl.style.height = 'auto';
 
     document.body.append(copiedstatsEl);
 
-    const canvas = await html2canvas(copiedstatsEl);
+    const canvas = await html2canvas(copiedstatsEl, {
+        backgroundColor: getComputedStyle(document.body).backgroundColor,
+    });
 
     copiedstatsEl.remove();
 
