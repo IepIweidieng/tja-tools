@@ -47,7 +47,7 @@ body {
     display: flex;
     flex-direction: row;
     font-family: sans-serif;
-    @media (max-width: 600px) {
+    @media only screen and ((max-width: 600px) or (orientation: portrait)) {
         flex-direction: column;
     }
 }
@@ -93,7 +93,7 @@ body {
 
 .is-size-big,
 .is-size-ex {
-    font-size: 125%;
+    font-size: 1.25em;
 }
 
 .is-in-gogo {
@@ -126,7 +126,7 @@ body {
 
         .title {
             margin-bottom: 4px;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -139,7 +139,7 @@ body {
 
 .pane-right .area {
     margin-left: 0;
-    @media (max-width: 600px) {
+    @media only screen and ((max-width: 600px) or (orientation: portrait)) {
         margin-top: 0;
         margin-left: 8px;
     }
@@ -156,7 +156,7 @@ body {
 
     .controls {
         margin-bottom: 8px;
-        font-size: 12px;
+        font-size: 0.75rem;
 
         .editor-process {
             margin-left: 4px;
@@ -231,7 +231,7 @@ body {
         max-height: 100%;
         font-family: monospace;
         resize: horizontal;
-        @media (max-width: 600px) {
+        @media only screen and ((max-width: 600px) or (orientation: portrait)) {
             min-width: 100%;
             max-width: 100%;
             min-height: 72px;
@@ -245,7 +245,7 @@ body {
         padding: 8px;
         max-height: 72px;
         background-color: #eee;
-        font-size: 12px;
+        font-size: 0.75rem;
         overflow-y: auto;
         @media (prefers-color-scheme: dark) {
             background-color: #444;
@@ -256,7 +256,7 @@ body {
 
 .area-footer {
     align-items: center;
-    @media (max-width: 600px) {
+    @media only screen and ((max-width: 600px) or (orientation: portrait)) {
         position: fixed;
         bottom: 0;
         right: 0;
@@ -267,7 +267,7 @@ body {
         padding-right: 4px;
         text-decoration: none;
         color: black;
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: bold;
         text-transform: uppercase;
         @media (prefers-color-scheme: dark) {
@@ -297,7 +297,7 @@ body {
 }
 
 .area-controls {
-    @media (max-width: 600px) {
+    @media only screen and ((max-width: 600px) or (orientation: portrait)) {
         position: sticky;
         top: 8px;
         backdrop-filter: blur(2px);
@@ -308,7 +308,7 @@ body {
         padding: 2px 4px;
         background: #fafafa;
         border: 1px solid #aaa;
-        font-size: 14px;
+        font-size: 0.875rem;
         cursor: pointer;
         @media (prefers-color-scheme: dark) {
             background-color: #333;
@@ -333,7 +333,7 @@ body {
 
     .controls {
         float: right;
-        font-size: 12px;
+        font-size: 0.75rem;
         margin-top: 8px;
     }
 }
@@ -417,7 +417,7 @@ body {
         padding: 2px 4px;
         background: #fafafa;
         border: 1px solid #aaa;
-        font-size: 14px;
+        font-size: 0.875rem;
         cursor: pointer;
         @media (prefers-color-scheme: dark) {
             background-color: #222;
