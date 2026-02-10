@@ -492,9 +492,13 @@ function buildStatisticsPage(data) {
     $('.stat-graph').empty();
     const graphSvg = d3
         .select('.stat-graph')
-        .attr('width', graphWidth + 50).attr('height', graphHeight + 40)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr('viewBox', `0 0 ${graphWidth + 50} ${graphHeight + 40}`)
         .append('g')
         .attr('transform', 'translate(30, 20)');
+    const graphContainer = $('.stat-graph-container').first();
+    graphContainer.style.maxWidth = `${graphWidth + 50}px`;
+    graphContainer.style.maxHeight = `${graphHeight + 40}px`;
 
     const layers = d3.stack().keys(['kadon', 'don', 'kat'])(graph.data);
 
