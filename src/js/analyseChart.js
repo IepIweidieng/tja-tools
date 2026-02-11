@@ -167,7 +167,7 @@ function getStatistics(course) {
     let start = 0, end = 0, combo = 0;
 	let rendaGroup = 0;
     let scCurEventIdx = 0, scCurEvent = course.events[scCurEventIdx];
-    let scGogo = 0;
+    let scGogo = false;
     let scNotes = [[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]];
     let scBalloon = [0, 0], scBalloonPop = [0, 0];
     let scPotential = 0;
@@ -179,8 +179,8 @@ function getStatistics(course) {
 
         if (scCurEvent && scCurEvent.beat <= note.beat) {
             do {
-                if (scCurEvent.type === 'gogoStart') scGogo = 1;
-                else if (scCurEvent.type === 'gogoEnd') scGogo = 0;
+                if (scCurEvent.type === 'gogoStart') scGogo = true;
+                else if (scCurEvent.type === 'gogoEnd') scGogo = false;
 
                 scCurEventIdx += 1;
                 scCurEvent = course.events[scCurEventIdx];
@@ -197,7 +197,7 @@ function getStatistics(course) {
             combo += 1;
 
             const scRange = (combo < 10 ? 0 : (combo < 30 ? 1 : (combo < 50 ? 2 : (combo < 100 ? 3 : 4))));
-            scNotes[isBig ? 1 : 0][scGogo][scRange] += 1;
+            scNotes[Number(isBig)][Number(scGogo)][Number(scRange)] += 1;
 
             let noteScoreBase = (
                 course.headers.scoreInit +
@@ -244,8 +244,8 @@ function getStatistics(course) {
                 balloons.push([balloonLength, note.count, note.type, scGogo]);
 
                 if (balloonSpeed <= 60) {
-                    scBalloon[scGogo] += note.count - 1;
-                    scBalloonPop[scGogo] += 1;
+                    scBalloon[Number(scGogo)] += note.count - 1;
+                    scBalloonPop[Number(scGogo)] += 1;
                 }
             }
             continue;
@@ -327,12 +327,12 @@ export default function (chart, courseId, branchType) {
 }
 
 export function calculateScore(stats, course, scoreInit, scoreDiff, gogoFloor, scoreSystem, shinuchi=false) {
-	const autoAC16 = [6.0,7.5,10.0,15.0,15.0];
+	const autoAC16 = [6.0,7.5,10.0,15.0];
 
 	const drop1 = n => Math.floor(n / 10) * 10;
 	const multipliers = [0, 1, 2, 4, 8];
 	const rollAC15 = 1.0 / 15.0;
-	const rollAC16 = 1.0 / autoAC16[course.headers.course];
+	const rollAC16 = 1.0 / autoAC16[Math.min(Math.max(0, course.headers.course), autoAC16.length - 1)];
 	const rollScore = [[100,200],[120,240]];
 
 	switch (scoreSystem + shinuchi) {
@@ -368,7 +368,7 @@ export function calculateScore(stats, course, scoreInit, scoreDiff, gogoFloor, s
 			let scoreRoll = 0;
 			for (let i = 0; i < stats.rendas.length; i++) {
 				scoreRoll += Math.ceil(stats.rendas[i] / rollAC15)
-				* rollScore[stats.rendaExtends[i].isGoGoRenda][stats.rendaExtends[i].isBigRenda];
+				* rollScore[Number(stats.rendaExtends[i].isGoGoRenda)][Number(stats.rendaExtends[i].isBigRenda)];
 			}
 			return [scoreBasic, scoreRoll]
 		}
@@ -382,7 +382,7 @@ export function calculateScore(stats, course, scoreInit, scoreDiff, gogoFloor, s
 			let scoreRoll = 0;
 			for (let i = 0; i < stats.rendas.length; i++) {
 				scoreRoll += Math.ceil(stats.rendas[i] / rollAC15)
-				* rollScore[0][stats.rendaExtends[i].isBigRenda];
+				* rollScore[0][Number(stats.rendaExtends[i].isBigRenda)];
 			}
 			return [scoreBasic, scoreRoll]
 		}
@@ -409,12 +409,12 @@ export function predictScore(stats, course, gogoFloor, scoreSystem) {
 		[40,45,50,55,60,65,70],
 		[55,60,65,70,75,80,85,90],
 		[70,75,80,85,90,95,100,105,110,120],
-		[70,75,80,85,90,95,100,105,110,120]
 	]
-	let tempLevel = Math.min(Math.max(1, Math.floor(course.headers.level)), tenjo[course.headers.course].length);
+	let tempDiff = Math.min(Math.max(course.headers.course, 0), tenjo.length - 1)
+	let tempLevel = Math.min(Math.max(Math.floor(course.headers.level), 1), tenjo[tempDiff].length);
 
 	//AC15
-	const scoreGoal = tenjo[course.headers.course][tempLevel - 1] * 10000;
+	const scoreGoal = tenjo[tempDiff][tempLevel - 1] * 10000;
 	const diffTemp = 2 * bsearchLeftmost(v => {
 		let diffTemp = 2 * v;
 		let scoreDiff = Math.ceil(diffTemp / 4);
